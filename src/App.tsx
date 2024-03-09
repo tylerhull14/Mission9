@@ -1,26 +1,57 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
+// Import the JSON data
+import teamsData from './CollegeBasketballTeams.json';
 
-  const blah = "hi"
+// Heading Component
+const Heading = () => {
+  return <h1>Welcome to NCAA Basketball College Information</h1>;
+};
+
+// TeamCard Component
+interface TeamCardProps {
+  school: string;
+  mascot: string;
+  location: string;
+}
+
+const TeamCard: React.FC<TeamCardProps> = ({ school, mascot, location }) => {
+  return (
+    <div className="team-card">
+      <h2>{school}</h2>
+      <p>Mascot: {mascot}</p>
+      <p>Location: {location}</p>
+    </div>
+  );
+};
+
+// TeamList Component
+const TeamList = () => {
+  return (
+    <div className="team-list">
+      {teamsData.teams.map((team) => (
+        <TeamCard
+          key={team.tid}
+          school={team.school}
+          mascot={team.name}
+          location={`${team.city}, ${team.state}`}
+        />
+      ))}
+    </div>
+  );
+};
+
+// App Component
+function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header>
+        <Heading />
       </header>
+      <main>
+        <TeamList />
+      </main>
     </div>
   );
 }
